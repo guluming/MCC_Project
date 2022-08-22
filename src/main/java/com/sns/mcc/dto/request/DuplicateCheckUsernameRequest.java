@@ -3,7 +3,6 @@ package com.sns.mcc.dto.request;
 import lombok.Getter;
 
 @Getter
-public class UserLoginRequest {
+public class DuplicateCheckUsernameRequest {
     private String username;
-    private String password;
 }
