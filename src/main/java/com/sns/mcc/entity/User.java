@@ -18,6 +18,10 @@ public class User extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concern_id")
+    private Concern concern;
+
     @Column(unique = true)
     private String username;
 
@@ -34,13 +38,16 @@ public class User extends TimeStamped {
     public User(UserSignUpRequest param, UserRole role) {
 
         UserValidator.validateUsername(param.getUsername());
-        UserValidator.validateNickname(param.getNickname());
         UserValidator.validatePassword(param.getPassword());
 
         this.username = param.getUsername();
-        this.nickname = param.getNickname();
         this.password = param.getPassword();
         this.role = role;
+    }
+
+    public void newUserUpdate(String nickName, Concern concern) {
+        this.nickname = nickName;
+        this.concern = concern;
     }
 
     public void userUpdate(String nickName) {

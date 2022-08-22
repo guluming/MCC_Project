@@ -3,10 +3,13 @@ package com.sns.mcc.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sns.mcc.dto.request.*;
 import com.sns.mcc.dto.response.UserDuplicateResponse;
+import com.sns.mcc.dto.response.UserLoginResponse;
+import com.sns.mcc.security.UserDetailsImpl;
 import com.sns.mcc.service.KakaoUserService;
 import com.sns.mcc.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class UserController {
 
     //로그인
     @PostMapping("/user/login")
-    public ResponseEntity<?> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<Object> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
         return userService.userLogin(userLoginRequest);
     }
 
@@ -46,9 +49,16 @@ public class UserController {
         return kakaoUserService.kakaoLogin(code);
     }
 
+    //Access 토큰 재발급
+    @PostMapping("/home/token")
+    public ResponseEntity<?> newAccessToken(@RequestBody NewTokenRequest newTokenRequest){
+        return userService.newAccessToken(newTokenRequest);
+    }
+
     //회원정보 수정
     @PatchMapping("/home/user")
-    public ResponseEntity<?> userEdit(@RequestBody UserEditRequest userEditRequest) {
-        return userService.userEdit(userEditRequest);
+    public ResponseEntity<Object> userEdit(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestBody UserEditRequest userEditRequest) {
+        return userService.userEdit(userDetails, userEditRequest);
     }
 }
