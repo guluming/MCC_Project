@@ -2,6 +2,7 @@ package com.sns.mcc.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sns.mcc.dto.request.*;
+import com.sns.mcc.dto.response.UserDuplicateResponse;
 import com.sns.mcc.service.KakaoUserService;
 import com.sns.mcc.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +18,20 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/signup")
-    public ResponseEntity<?> userSignup(@RequestBody UserSignUpRequest userSignUpRequest) {
+    public ResponseEntity<Object> userSignup(@RequestBody UserSignUpRequest userSignUpRequest) {
         return userService.userSignup(userSignUpRequest);
     }
 
     //아이디 중복 확인
     @PostMapping("/user/id")
-    public ResponseEntity<?> duplicateCheckUsername(@RequestBody DuplicateCheckUsernameRequest duplicateCheckUsernameRequest) {
-        return userService.duplicateCheckUsername(duplicateCheckUsernameRequest);
+    public UserDuplicateResponse duplicateCheckUsername(@RequestBody DuplicateCheckUsernameRequest duplicateCheckUsernameRequest) {
+        return userService.duplicateCheckUsername(duplicateCheckUsernameRequest.getUsername());
     }
 
     //닉네임 중복 확인
     @PostMapping("/user/nickname")
-    public ResponseEntity<?> duplicateCheckNickname(@RequestBody DuplicateCheckNicknameRequest duplicateCheckNicknameRequest) {
-        return userService.duplicateCheckNickname(duplicateCheckNicknameRequest);
+    public UserDuplicateResponse duplicateCheckNickname(@RequestBody DuplicateCheckNicknameRequest duplicateCheckNicknameRequest) {
+        return userService.duplicateCheckNickname(duplicateCheckNicknameRequest.getNickname());
     }
 
     //로그인

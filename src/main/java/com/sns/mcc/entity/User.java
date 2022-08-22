@@ -3,6 +3,7 @@ package com.sns.mcc.entity;
 import com.sns.mcc.dto.request.UserSignUpRequest;
 import com.sns.mcc.enums.UserRole;
 import com.sns.mcc.utill.TimeStamped;
+import com.sns.mcc.validator.UserValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,11 @@ public class User extends TimeStamped {
     private UserRole role;
 
     public User(UserSignUpRequest param, UserRole role) {
+
+        UserValidator.validateUsername(param.getUsername());
+        UserValidator.validateNickname(param.getNickname());
+        UserValidator.validatePassword(param.getPassword());
+
         this.username = param.getUsername();
         this.nickname = param.getNickname();
         this.password = param.getPassword();
