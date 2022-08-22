@@ -2,6 +2,7 @@ package com.sns.mcc.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sns.mcc.dto.request.*;
+import com.sns.mcc.service.KakaoUserService;
 import com.sns.mcc.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    private final KakaoUserService kakaoUserService;
 
     //회원가입
     @PostMapping("/user/signup")
